@@ -73,7 +73,7 @@ resource "aws_launch_template" "wordpress_lt" {
   image_id      = data.aws_ami.amzn_linux_2.id
   instance_type = var.ec2_instance_type
   key_name      = var.ec2_public_key_name
-  user_data     = base64encode(templatefile("./scripts/bootstrap.sh", local.credentials))
+  user_data     = base64encode(templatefile("${module.path}/scripts/bootstrap.sh", local.credentials))
 
   iam_instance_profile {
     name = aws_iam_instance_profile.parameter_store_profile.name
