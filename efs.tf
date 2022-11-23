@@ -7,7 +7,15 @@ resource "aws_efs_file_system" "wordpress_fs" {
   }
 
   tags = {
-    Name = "MyProduct"
+    Name = "Wordpress-EFS-DATA"
+  }
+}
+
+resource "aws_efs_backup_policy" "policy" {
+  file_system_id = aws_efs_file_system.wordpress_fs.id
+
+  backup_policy {
+    status = "ENABLED"
   }
 }
 
