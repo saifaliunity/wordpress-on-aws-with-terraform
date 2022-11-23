@@ -17,6 +17,9 @@ resource "aws_efs_backup_policy" "policy" {
   backup_policy {
     status = "ENABLED"
   }
+depends_on = [
+  aws_efs_file_system.wordpress_fs
+]
 }
 
 resource "aws_efs_mount_target" "wordpress_mount_targets" {
