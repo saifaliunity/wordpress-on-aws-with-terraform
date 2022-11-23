@@ -79,16 +79,6 @@ variable "db_instance_type" {
   description = "The DB instance class type db.t2.micro, db.m5.larage, etc.."
 }
 
-variable "db_storage_capacity" {
-  type        = number
-  description = "Allocated storage capacity for the RDS instance"
-}
-
-variable "db_storage_type" {
-  type        = string
-  description = "The Strorage type of the DB instance gp2, io1 , etc..."
-}
-
 variable "db_engine" {
   type        = string
   description = "The type of engine to run on the DB instance aurora, mysql, postgresql, etc.."
@@ -99,9 +89,25 @@ variable "db_engine_version" {
   description = "The version of the engine running on the DB instance"
 }
 
+variable "db_engine_mode" {
+  type        = string
+  description = "The mode of the engine running on the DB instance"
+}
+
+
 variable "db_port" {
   type        = number
   description = "The port that the DB engine listening on"
+}
+
+variable "db_min_capacity" {
+  type        = string
+  description = "The min capacity of the  DB instance"
+}
+
+variable "db_max_capacity" {
+  type        = string
+  description = "The max capacity of the  DB instance"
 }
 
 ############################
@@ -128,6 +134,7 @@ variable "ec_az_mode" {
 }
 
 variable "ec_memcached_port" {
+  default = 11211
   type        = number
   description = "The Memcache port that the nodes will be listing on"
 }

@@ -11,6 +11,7 @@ resource "aws_rds_cluster" "wordpress_db_cluster" {
   cluster_identifier = "wordpress-aurora-cluster"
   engine             = var.db_engine
   engine_version     = var.db_engine_version
+  engine_mode        = var.db_engine_mode
   port               = var.db_port
   database_name      = aws_ssm_parameter.db_name.value
   master_username    = aws_ssm_parameter.db_username.value
@@ -21,10 +22,15 @@ resource "aws_rds_cluster" "wordpress_db_cluster" {
   backup_retention_period = 5
   preferred_backup_window = "07:00-09:00"
   skip_final_snapshot     = true
+  serverlessv2_scaling_configuration {
+    min_capacity = var.db_min_capacity
+    max_capacity = var.db_max_capacity
+  }
+
 }
 
 resource "aws_rds_cluster_instance" "wordpress_cluster_instances" {
-  count                = 2
+  count                = 1
   identifier           = "wordpress-db-instance-${count.index}"
   cluster_identifier   = aws_rds_cluster.wordpress_db_cluster.id
   instance_class       = var.db_instance_type
@@ -33,4 +39,3 @@ resource "aws_rds_cluster_instance" "wordpress_cluster_instances" {
   publicly_accessible  = false
   db_subnet_group_name = aws_rds_cluster.wordpress_db_cluster.db_subnet_group_name
 }
-
