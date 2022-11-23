@@ -3,13 +3,13 @@ resource "random_string" "username" {
   length  = 12
   special = false
   upper   = false
-  number  = false
+  numeric  = false
 }
 
 resource "random_password" "password" {
   length           = 16
   special          = true
-  number           = false
+  numeric           = false
   override_special = "-_"
 }
 
