@@ -106,6 +106,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
     propagate_at_launch = true
   }
 depends_on = [
-  aws_rds_cluster_instance.wordpress_cluster_instances
+  aws_rds_cluster_instance.wordpress_cluster_instances,
+  aws_elasticache_cluster.memcached_cluster
 ]
 }
