@@ -24,7 +24,7 @@ resource "aws_eip" "eip" {
 }
 
 resource "aws_nat_gateway" "nat" {
-  count         = 1
+  count         = 2
   allocation_id = aws_eip.eip[count.index].id
   subnet_id     = aws_subnet.public_subnets[count.index].id
   tags = {
