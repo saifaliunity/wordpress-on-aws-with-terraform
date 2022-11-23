@@ -30,7 +30,7 @@ resource "aws_rds_cluster" "wordpress_db_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "wordpress_cluster_instances" {
-  count                = 1
+  count                = 2
   identifier           = "wordpress-db-instance-${count.index}"
   cluster_identifier   = aws_rds_cluster.wordpress_db_cluster.id
   instance_class       = var.db_instance_type
