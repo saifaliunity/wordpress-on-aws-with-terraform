@@ -54,7 +54,6 @@ resource "aws_autoscaling_group" "bastion_asg" {
   max_size            = var.ec2_bastion_asg_max_capacity
   vpc_zone_identifier = aws_subnet.public_subnets[*].id
 
-
   launch_template {
     id      = aws_launch_template.bastion_lt.id
     version = "$Latest"
@@ -82,6 +81,7 @@ resource "aws_launch_template" "wordpress_lt" {
   network_interfaces {
     security_groups = [aws_security_group.wordpress_sg.id]
   }
+
 }
 
 resource "aws_autoscaling_group" "wordpress_asg" {
@@ -105,4 +105,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
     value               = "wordpress-asg"
     propagate_at_launch = true
   }
+depends_on = [
+  aws_rds_cluster_instance.wordpress_cluster_instances
+]
 }
