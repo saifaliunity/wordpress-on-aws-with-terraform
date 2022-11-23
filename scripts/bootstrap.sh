@@ -19,8 +19,8 @@ function installMemcachedClient {
 
 #Mount the EFS file system to the wordpress dir
 function mountEFS {
-     mkdir $wordpress_dir
-     mount -t efs ${file_system_id}:/ $wordpress_dir
+     mkdir ${wordpress_dir}
+     mount -t efs ${file_system_id}:/ ${wordpress_dir}
 }
 
 
@@ -28,7 +28,7 @@ function mountEFS {
 function configuringNginx {
     echo "Configuring Nginx ........"
 
-    github_raw_url='https://raw.githubusercontent.com/MohamedHajr/wordpress-on-aws-with-terraform/master/configurations'
+    github_raw_url='https://raw.githubusercontent.com/saifaliunity/wordpress-on-aws-with-terraform/master/configurations'
     curl "$github_raw_url/wordpress.conf" -o /etc/nginx/conf.d/wordpress.conf
     curl "$github_raw_url/nginx.conf" > /etc/nginx/nginx.conf
     sed -i '/;cgi.fix_pathinfo=1/c\cgi.fix_pathinfo=0' /etc/php.ini
@@ -36,7 +36,7 @@ function configuringNginx {
 }
 
 function installWordpress {
-    cd $wordpress_dir
+    cd ${wordpress_dir}
 
     echo "Downloading WP-CLI...."
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -66,7 +66,7 @@ configuringNginx
 #Spining everything
 systemctl enable --now nginx php-fpm 
 
-if [ -n "$(ls -A $wordpress_dir 2>/dev/null)" ]
+if [ -n "$(ls -A ${wordpress_dir} 2>/dev/null)" ]
 then
     echo "Wordpress Already installed on the EFS file system"
 else
