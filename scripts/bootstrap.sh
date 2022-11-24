@@ -20,8 +20,8 @@ function installMemcachedClient {
 #Mount the EFS file system to the wordpress dir
 function mountEFS {
     sudo pip3 install botocore
-    sudo mkdir -p $wordpress_dir/wp-content
-    sudo mount -t efs ${file_system_id}:/ $wordpress_dir/wp-content
+    sudo mkdir -p $wordpress_dir
+    sudo mount -t efs ${file_system_id}:/ $wordpress_dir
 }
 
 
@@ -77,20 +77,26 @@ configuringNginx
 #Spining everything
 systemctl enable --now nginx php-fpm 
 
-
-if [ ! -d $wordpress_dir/wp-admin ] ; then
-    installWordpress
-else
-    echo "Wordpress is Already installed at $wordpress_dir"
-fi
-
-if mountpoint -q $wordpress_dir/wp-content; then
-    fixApachePermissionsOnWp
-else 
-    echo "EFS is not yet mounted, trying to mount it..."
+if ! mountpoint -q $wordpress_dir; then
     mountEFS
-    echo "Apache Permission Fix Since our webserver is php-apache"
+    if [  mountpoint -q $wordpress_dir -a -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
+        echo "Fixing apache permissions..."
+        fixApachePermissionsOnWp
+    else
+        echo "EFS attahced is empty! need to install fresh wordpress.."
+        installWordpress
+        fixApachePermissionsOnWp
+    fi
+else 
+    if [ -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
+    echo "Wordpress is already installed! EFS has been mounted!"
+    echo "Fixing apache permissions..."
     fixApachePermissionsOnWp
+    else
+        echo "EFS attahced is empty! need to install fresh wordpress.."
+        installWordpress
+        fixApachePermissionsOnWp
+    fi
 fi
 
 
