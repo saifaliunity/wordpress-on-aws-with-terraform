@@ -3,9 +3,16 @@
 wordpress_dir=/usr/share/nginx/wordpress
 
 function installPackages {
-    yum update -y
-    amazon-linux-extras install php7.4 nginx1 lamp-mariadb10.2-php7.4 -y
-    yum install amazon-efs-utils -y
+    sudo yum remove -y php php-* \ 
+    && amazon-linux-extras disable php7.2 \
+    && amazon-linux-extras disable lamp-mariadb10.2-php7.2
+    && amazon-linux-extras enable php7.4 \
+    && amazon-linux-extras install php7.4 \
+    sudo yum update -y
+    sudo amazon-linux-extras install php7.4 nginx1 -y
+    sudo yum install amazon-efs-utils -y
+    sudo yum clean all
+    sudo rm -rf /var/cache/yum
 }
 
 function installMemcachedClient {
