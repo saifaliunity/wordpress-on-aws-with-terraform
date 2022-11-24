@@ -84,12 +84,13 @@ else
     echo "Wordpress is Already installed at $wordpress_dir"
 fi
 
-if  mount | awk '{if ($3 == $wordpress_dir/wp-content) { exit 0}} ENDFILE {exit -1}'; then 
-mountEFS
-fixApachePermissionsOnWp
+if mountpoint -q $wordpress_dir/wp-content; then
+    fixApachePermissionsOnWp
 else 
-    echo "EFS Failed to mount hence exiting.."
-    exit 1
+    echo "EFS is not yet mounted, trying to mount it..."
+    mountEFS
+    echo "Apache Permission Fix Since our webserver is php-apache"
+    fixApachePermissionsOnWp
 fi
-# Apache Permission Fix Since our webserver is php-apache
+
 
