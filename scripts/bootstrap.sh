@@ -83,9 +83,8 @@ if ! mountpoint -q $wordpress_dir; then
         echo "Fixing apache permissions..."
         fixApachePermissionsOnWp
     else
-        echo "EFS attahced is empty! need to install fresh wordpress.."
-        installWordpress
-        fixApachePermissionsOnWp
+        echo "Unable to Attach EFS!"
+        exit 1
     fi
 else 
     if [ -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
