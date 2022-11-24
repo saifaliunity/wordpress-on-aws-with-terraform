@@ -1,7 +1,7 @@
 resource "aws_efs_file_system" "wordpress_fs" {
   creation_token   = "wordpress-file-system"
   performance_mode = "generalPurpose"
-
+  encrypted = true
   lifecycle_policy {
     transition_to_ia = "AFTER_60_DAYS"
   }
