@@ -73,8 +73,6 @@ function fixApachePermissionsOnWp {
 installPackages
 mountEFS
 configuringNginx
-# Apache Permission Fix Since our webserver is php-apache
-fixApachePermissionsOnWp
 
 #Spining everything
 systemctl enable --now nginx php-fpm 
@@ -82,5 +80,7 @@ systemctl enable --now nginx php-fpm
 if [ ! -d $wordpress_dir/wp-content ] ; then
     installWordpress
 else
-    echo "Wordpress Already installed on the EFS file system" 
+    echo "Wordpress Already installed on the EFS file system"
 fi
+# Apache Permission Fix Since our webserver is php-apache
+fixApachePermissionsOnWp
