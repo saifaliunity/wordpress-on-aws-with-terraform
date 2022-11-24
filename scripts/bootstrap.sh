@@ -62,11 +62,17 @@ function installWordpress {
 
 }
 
+function fixApachePermissionsOnWp {
+    chown -R apache:apache /usr/share/nginx/wordpress/
+}
+
 
 #Installing Everything
 installPackages
 mountEFS
 configuringNginx
+# Apache Permission Fix Since our webserver is php-apache
+fixApachePermissionsOnWp
 
 #Spining everything
 systemctl enable --now nginx php-fpm 
