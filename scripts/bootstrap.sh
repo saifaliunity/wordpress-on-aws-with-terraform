@@ -52,7 +52,7 @@ function installWordpress {
 
     echo "Installing Wordpress...."
     wp core install --url=${site_url} --title="${wp_title}" --admin_user=${wp_username} --admin_password=${wp_password} --admin_email=${wp_email}
-
+    wp config set --add FS_METHOD direct
     #Install w3-total cache plugin 
     wp plugin install w3-total-cache --activate
 }
