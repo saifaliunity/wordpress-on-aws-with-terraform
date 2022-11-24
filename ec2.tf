@@ -65,6 +65,13 @@ resource "aws_autoscaling_group" "bastion_asg" {
     value               = "bastion-asg"
     propagate_at_launch = true
   }
+    instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 100
+    }
+    triggers = ["launch_template"]
+  }
 }
 
 resource "aws_launch_template" "wordpress_lt" {
