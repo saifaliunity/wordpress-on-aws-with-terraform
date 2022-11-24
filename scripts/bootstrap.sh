@@ -77,10 +77,16 @@ configuringNginx
 #Spining everything
 systemctl enable --now nginx php-fpm 
 
+if  mount | awk '{if ($3 == $wordpress_dir) { exit 0}} ENDFILE {exit -1}'; then 
 if [ ! -d $wordpress_dir/wp-content ] ; then
     installWordpress
 else
     echo "Wordpress Already installed on the EFS file system"
 fi
+else 
+    echo "EFS Failed to mount hence exiting.."
+    exit 1
+fi
+
 # Apache Permission Fix Since our webserver is php-apache
 fixApachePermissionsOnWp
