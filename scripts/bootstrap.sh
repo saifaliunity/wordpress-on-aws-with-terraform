@@ -64,6 +64,7 @@ function installWordpress {
 
 function fixApachePermissionsOnWp {
     sudo chown -R apache:apache /usr/share/nginx/wordpress/
+    sudo systemctl restart nginx
 }
 
 
