@@ -70,7 +70,6 @@ resource "aws_autoscaling_group" "bastion_asg" {
     preferences {
       min_healthy_percentage = 100
     }
-    triggers = ["launch_template"]
   }
 }
 
@@ -119,7 +118,6 @@ resource "aws_autoscaling_group" "wordpress_asg" {
     preferences {
       min_healthy_percentage = 100
     }
-    triggers = ["launch_template"]
   }
 
   depends_on = [
