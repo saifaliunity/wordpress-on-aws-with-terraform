@@ -65,7 +65,7 @@ resource "aws_autoscaling_group" "bastion_asg" {
     value               = "bastion-asg"
     propagate_at_launch = true
   }
-    instance_refresh {
+  instance_refresh {
     strategy = "Rolling"
     preferences {
       min_healthy_percentage = 100
@@ -113,8 +113,17 @@ resource "aws_autoscaling_group" "wordpress_asg" {
     value               = "wordpress-asg"
     propagate_at_launch = true
   }
-depends_on = [
-  aws_rds_cluster_instance.wordpress_cluster_instances,
-  aws_elasticache_cluster.memcached_cluster
-]
+
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 100
+    }
+    triggers = ["launch_template"]
+  }
+
+  depends_on = [
+    aws_rds_cluster_instance.wordpress_cluster_instances,
+    aws_elasticache_cluster.memcached_cluster
+  ]
 }

@@ -134,7 +134,7 @@ variable "ec_az_mode" {
 }
 
 variable "ec_memcached_port" {
-  default = 11211
+  default     = 11211
   type        = number
   description = "The Memcache port that the nodes will be listing on"
 }
