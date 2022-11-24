@@ -55,6 +55,21 @@ function installWordpress {
     wp config set --add FS_METHOD direct
     #Install w3-total cache plugin 
     wp plugin install w3-total-cache --activate
+    echo "
+# BEGIN WordPress
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+# END WordPress" >> .htaccess
+    echo "
+upload_max_filesize = 100M
+post_max_size = 100M
+memory_limit = 1024M
+" > php.ini
 }
 
 
