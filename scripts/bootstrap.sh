@@ -4,7 +4,7 @@ wordpress_dir=/usr/share/nginx/wordpress
 
 function installPackages {
     yum update -y
-    amazon-linux-extras install php7.2 nginx1 lamp-mariadb10.2-php7.2 -y
+    amazon-linux-extras install php7.4 nginx1 lamp-mariadb10.2-php7.4 -y
     yum install amazon-efs-utils -y
 }
 
