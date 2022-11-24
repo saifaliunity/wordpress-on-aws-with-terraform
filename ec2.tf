@@ -26,6 +26,7 @@ locals {
     site_url       = aws_ssm_parameter.site_url.value
     region         = var.region
     file_system_id = aws_efs_file_system.wordpress_fs.id
+    wordpres_dir   = "/usr/share/nginx/wordpress"
   }
 }
 
