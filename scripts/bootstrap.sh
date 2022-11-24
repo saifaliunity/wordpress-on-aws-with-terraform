@@ -79,9 +79,9 @@ fixApachePermissionsOnWp
 #Spining everything
 systemctl enable --now nginx php-fpm 
 
-if [ -n "$(ls -A $wordpress_dir 2>/dev/null)" ]
+if [ ! -d $wordpress_dir/wp-content ] ; then
 then
-    echo "Wordpress Already installed on the EFS file system"
+    installWordpress
 else
-    installWordpress 
+    echo "Wordpress Already installed on the EFS file system" 
 fi
