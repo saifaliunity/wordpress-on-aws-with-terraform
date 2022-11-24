@@ -20,7 +20,7 @@ function installMemcachedClient {
 #Mount the EFS file system to the wordpress dir
 function mountEFS {
     sudo pip3 install botocore
-    sudo mkdir -p $wordpress_dir
+    sudo mkdir -p $wordpress_dir/wp-content
     sudo mount -t efs ${file_system_id}:/ $wordpress_dir/wp-content
 }
 
