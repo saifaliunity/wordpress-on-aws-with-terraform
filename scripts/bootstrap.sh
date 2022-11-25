@@ -31,7 +31,7 @@ function installMemcachedClient {
     cd aws-elasticache-cluster-client-libmemcached
     pwd
     pwd
-    ./configure --prefix=$(pwd)/local --with-pic
+    CFLAGS=-Wno-error ./configure --prefix=$(pwd)/local --with-pic
     make
     make install
 
@@ -40,7 +40,7 @@ function installMemcachedClient {
     git clone https://github.com/awslabs/aws-elasticache-cluster-client-memcached-for-php.git -b php7.4
     cd aws-elasticache-cluster-client-memcached-for-php/
     phpize
-    ./configure --with-libmemcached-dir=../aws-elasticache-cluster-client-libmemcached/local/ --disable-memcached-sasl
+    CFLAGS=-Wno-error ./configure --with-libmemcached-dir=../aws-elasticache-cluster-client-libmemcached/local/ --disable-memcached-sasl
     make
     sudo make install
     sudo cp ./modules/memcached.so "$(php -r 'echo ini_get("extension_dir");')"
