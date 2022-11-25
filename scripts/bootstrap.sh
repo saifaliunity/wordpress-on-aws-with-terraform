@@ -49,6 +49,7 @@ function configuringNginx {
     curl "$github_raw_url/wordpress.conf" -o /etc/nginx/conf.d/wordpress.conf
     curl "$github_raw_url/nginx.conf" > /etc/nginx/nginx.conf
     sed -i '/;cgi.fix_pathinfo=1/c\cgi.fix_pathinfo=0' /etc/php.ini
+    sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 100M/g' /etc/php.ini
     #sed -i '/user = apache/c\user = apache, nginx' /etc/php-fpm.d/www.conf
 }
 
@@ -75,7 +76,7 @@ function installWordpress {
     # Download the htacess and php.ini directives
     github_raw_url='https://raw.githubusercontent.com/saifaliunity/wordpress-on-aws-with-terraform/master/configurations'
     curl "$github_raw_url/.htaccess" -o $wordpress_dir/.htaccess
-    curl "$github_raw_url/php.ini" -o $wordpress_dir/php.ini
+    curl "$github_raw_url/php.ini" -o $wordpress_dir/wp-admin/php.ini
 
 }
 
