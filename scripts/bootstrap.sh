@@ -76,7 +76,7 @@ function installWordpress {
     # Download the htacess and php.ini directives
     github_raw_url='https://raw.githubusercontent.com/saifaliunity/wordpress-on-aws-with-terraform/master/configurations'
     curl "$github_raw_url/.htaccess" -o $wordpress_dir/.htaccess
-    curl "$github_raw_url/php.ini" -o $wordpress_dir/wp-admin/php.ini
+    curl "$github_raw_url/.user.ini" -o $wordpress_dir/wp-admin/.user.ini
 
 }
 
