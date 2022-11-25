@@ -7,7 +7,7 @@ function installPackages {
     sudo amazon-linux-extras disable php7.2
     sudo amazon-linux-extras disable lamp-mariadb10.2-php7.2
     sudo amazon-linux-extras enable php7.4
-    sudo amazon-linux-extras install php7.4
+    sudo amazon-linux-extras install php7.4 -y
     sudo yum update -y
     sudo amazon-linux-extras install php7.4 nginx1 -y
     sudo yum install mariadb-server mysql -y
@@ -124,7 +124,7 @@ if ! mountpoint -q $wordpress_dir; then
         exit 1
     fi
 else 
-    if [ ! -f "$wordpress_dir/wp-config.php" -a -f "$wordpress_dir/wp-config-sample.php" -a -d "$wordpress_dir/wp-admin" -a -d "$wordpress_dir/wp-includes" -a -d "$wordpress_dir/wp-content"]; then
+    if [ ! -f "$wordpress_dir/wp-config.php" -a -f "$wordpress_dir/wp-config-sample.php" -a -d "$wordpress_dir/wp-admin" -a -d "$wordpress_dir/wp-includes" -a -d "$wordpress_dir/wp-content" ]; then
     echo "Wordpress is already installed! But not configured! EFS is mounted"
     echo "Generating Wp config"
     genWpConfig
