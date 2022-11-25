@@ -12,7 +12,7 @@ function installPackages {
     sudo amazon-linux-extras install php7.4 nginx1 -y
     sudo yum install mariadb-server mysql -y
     sudo yum install amazon-efs-utils git libssl-dev openssl-devel git gcc g++ make pkg-config libsasl2-dev php-devel -y
-    sudo yum install gcc-c++ zlib-devel
+    sudo yum install gcc-c++ zlib-devel -y
     sudo yum remove openssl-devel.x86_64 -y
     sudo yum autoremove -y
     sudo yum install openssl11-devel -y
