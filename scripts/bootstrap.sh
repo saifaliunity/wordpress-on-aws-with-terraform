@@ -70,6 +70,12 @@ function installWordpress {
 
 }
 
+function genWpConfig {
+    cd $wordpress_dir
+    rm -rf wp-config-sample.php
+    wp config create --dbname=${db_name} --dbuser=${db_username} --dbpass=${db_password} --dbhost=${db_host}
+}
+
 function fixApachePermissionsOnWp {
     sudo chown -R apache:apache /usr/share/nginx/wordpress/
     sudo systemctl restart nginx
@@ -94,8 +100,10 @@ if ! mountpoint -q $wordpress_dir; then
         exit 1
     fi
 else 
-    if [ -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
-    echo "Wordpress is already installed! EFS has been mounted!"
+    if [ ! -f "$wordpress_dir/wp-config.php" -a -f "$wordpress_dir/wp-config-sample.php" -a -d "$wordpress_dir/wp-admin" -a -d "$wordpress_dir/wp-includes" -a -d "$wordpress_dir/wp-content"]; then
+    echo "Wordpress is already installed! But not configured! EFS is mounted"
+    echo "Generating Wp config"
+    genWpConfig
     echo "Fixing apache permissions..."
     fixApachePermissionsOnWp
     else
