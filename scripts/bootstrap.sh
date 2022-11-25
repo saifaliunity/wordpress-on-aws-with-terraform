@@ -10,6 +10,7 @@ function installPackages {
     sudo amazon-linux-extras install php7.4
     sudo yum update -y
     sudo amazon-linux-extras install php7.4 nginx1 -y
+    sudo yum install mariadb-server
     sudo yum install amazon-efs-utils -y
     sudo yum clean all
     sudo rm -rf /var/cache/yum
