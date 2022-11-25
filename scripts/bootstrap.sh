@@ -11,7 +11,7 @@ function installPackages {
     sudo yum update -y
     sudo amazon-linux-extras install php7.4 nginx1 -y
     sudo yum install mariadb-server mysql -y
-    sudo yum install amazon-efs-utils git libssl-dev openssl-devel -y
+    sudo yum install amazon-efs-utils git libssl-dev openssl-devel git gcc g++ make pkg-config libsasl2-dev php-devel -y
     sudo yum clean all
     sudo rm -rf /var/cache/yum
 }
@@ -26,7 +26,6 @@ function installMemcachedClient {
     git clone https://github.com/awslabs/aws-elasticache-cluster-client-libmemcached.git
     cd aws-elasticache-cluster-client-libmemcached
     pwd
-    sudo yum install -y git gcc g++ make 
     pwd
     ./configure --prefix=$(pwd)/local --with-pic
     make
@@ -36,7 +35,6 @@ function installMemcachedClient {
     cd ..
     git clone https://github.com/awslabs/aws-elasticache-cluster-client-memcached-for-php.git -b php7.4
     cd aws-elasticache-cluster-client-memcached-for-php/
-    sudo yum install -y pkg-config libsasl2-dev
     phpize
     ./configure --with-libmemcached-dir=../aws-elasticache-cluster-client-libmemcached/local/ --disable-memcached-sasl
     make
