@@ -21,31 +21,13 @@ function installPackages {
 }
 
 function installMemcachedClient {
-    # wget https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-7.4/latest-64bit-arm-openssl1.1
-    # tar -zxvf latest-64bit-arm-openssl1.1
-    # mv amazon-elasticache-cluster-client.so /usr/lib64/php/modules/
-    # echo "extension=amazon-elasticache-cluster-client.so" | sudo tee --append /etc/php.d/50-memcached.ini
-    # rm -rfv latest-64bit-arm-openssl1.1 artifact
-    # Build ElastiCache libmemcached
-    git clone https://github.com/awslabs/aws-elasticache-cluster-client-libmemcached.git
-    cd aws-elasticache-cluster-client-libmemcached
-    pwd
-    pwd
-    CFLAGS=-Wno-error ./configure --prefix=$(pwd)/local --with-pic
-    make
-    make install
-
-    # Build ElastiCache php-memcached
-    cd ..
-    git clone https://github.com/awslabs/aws-elasticache-cluster-client-memcached-for-php.git -b php7.4
-    cd aws-elasticache-cluster-client-memcached-for-php/
-    phpize
-    CFLAGS=-Wno-error ./configure --with-libmemcached-dir=../aws-elasticache-cluster-client-libmemcached/local/ --disable-memcached-sasl
-    make
-    sudo make install
-    sudo cp ./modules/memcached.so "$(php -r 'echo ini_get("extension_dir");')"
-    echo "extension=memcached.so" | sudo tee $(dirname "$(php -r 'echo php_ini_scanned_files();' | head -1)")/memcached.ini >/dev/null
-
+    # Install
+    wget https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-7.4/latest-64bit-X86
+    tar -zxvf lalatest-64bit-X86
+    mv amazon-elasticache-cluster-client.so /usr/lib64/php/modules/
+    echo "extension=amazon-elasticache-cluster-client.so" | sudo tee --append /etc/php.d/50-memcached.ini
+    rm -rfv latest-64bit-X86 artifact
+    sudo systemctl restart php-fpm nginx
     # Verify
     php -r "echo((extension_loaded('memcached') ? \"Yes\n\" : \"No\n\"));"
 }
