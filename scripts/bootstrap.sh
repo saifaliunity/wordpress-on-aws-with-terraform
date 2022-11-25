@@ -17,7 +17,7 @@ function installPackages {
 }
 
 function installMemcachedClient {
-    wget https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-7.0/latest-64bit
+    wget https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-7.4/latest-64bit-arm-openssl3
     tar -zxvf latest-64bit
     mv artifact/amazon-elasticache-cluster-client.so /usr/lib64/php/modules/
     echo "extension=amazon-elasticache-cluster-client.so" | sudo tee --append /etc/php.d/50-memcached.ini
@@ -86,6 +86,7 @@ function fixApachePermissionsOnWp {
 #Installing Everything
 installPackages
 mountEFS
+installMemcachedClient
 configuringNginx
 
 #Spining everything
