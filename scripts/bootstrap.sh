@@ -110,6 +110,7 @@ else
     else
         echo "EFS attahced is empty! need to install fresh wordpress.."
         installWordpress
+        echo "Fixing apache permissions..."
         fixApachePermissionsOnWp
     fi
 fi
