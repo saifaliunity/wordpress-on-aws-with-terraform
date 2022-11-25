@@ -71,7 +71,7 @@ function installWordpress {
     wp core install --url=${site_url} --title="${wp_title}" --admin_user=${wp_username} --admin_password=${wp_password} --admin_email=${wp_email}
     wp config set --add FS_METHOD direct
     #Install w3-total cache plugin 
-    wp plugin install w3-total-cache --activate
+    # wp plugin install w3-total-cache --activate
     # Download the htacess and php.ini directives
     github_raw_url='https://raw.githubusercontent.com/saifaliunity/wordpress-on-aws-with-terraform/master/configurations'
     curl "$github_raw_url/.htaccess" -o $wordpress_dir/.htaccess
