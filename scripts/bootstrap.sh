@@ -25,7 +25,7 @@ function installMemcachedClient {
     # Build ElastiCache libmemcached
     git clone https://github.com/awslabs/aws-elasticache-cluster-client-libmemcached.git
     cd aws-elasticache-cluster-client-libmemcached
-    sudo apt-get install -y gcc g++ make 
+    sudo yum install -y git gcc g++ make 
     ./configure --prefix=$(pwd)/local --with-pic
     make
     make install
@@ -34,7 +34,7 @@ function installMemcachedClient {
     cd ..
     git clone https://github.com/awslabs/aws-elasticache-cluster-client-memcached-for-php.git -b php7.4
     cd aws-elasticache-cluster-client-memcached-for-php/
-    sudo apt-get install -y pkg-config libsasl2-dev
+    sudo yum install -y pkg-config libsasl2-dev
     phpize
     ./configure --with-libmemcached-dir=../aws-elasticache-cluster-client-libmemcached/local/ --disable-memcached-sasl
     make
