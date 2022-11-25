@@ -9,9 +9,9 @@ function installPackages {
     sudo amazon-linux-extras enable php7.4
     sudo amazon-linux-extras install php7.4 -y
     sudo yum update -y
-    sudo amazon-linux-extras install php7.4 nginx1 git -y
+    sudo amazon-linux-extras install php7.4 nginx1 -y
     sudo yum install mariadb-server mysql -y
-    sudo yum install amazon-efs-utils git libssl-dev -y
+    sudo yum install amazon-efs-utils git libssl-dev openssl-devel -y
     sudo yum clean all
     sudo rm -rf /var/cache/yum
 }
