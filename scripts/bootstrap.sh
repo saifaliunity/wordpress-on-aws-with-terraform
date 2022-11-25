@@ -19,7 +19,7 @@ function installPackages {
 function installMemcachedClient {
     wget https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-7.4/latest-64bit-arm-openssl1.1
     tar -zxvf latest-64bit-arm-openssl1.1
-    mv artifact/amazon-elasticache-cluster-client.so /usr/lib64/php/modules/
+    mv amazon-elasticache-cluster-client.so /usr/lib64/php/modules/
     echo "extension=amazon-elasticache-cluster-client.so" | sudo tee --append /etc/php.d/50-memcached.ini
     rm -rfv latest-64bit-arm-openssl1.1 artifact
 }
