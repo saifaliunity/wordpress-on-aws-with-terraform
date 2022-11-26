@@ -62,14 +62,14 @@ function installWordpress {
     mv wp-cli.phar /usr/local/bin/wp
 
     echo "Downloading Wordpress...."
-    #wp core download 
+    wp core download 
 
     #create wp-config.php
     echo "Generating wp-config.php...."
     wp config create --dbname=${db_name} --dbuser=${db_username} --dbpass=${db_password} --dbhost=${db_host}
 
     echo "Installing Wordpress...."
-    #wp core install --url=${site_url} --title="${wp_title}" --admin_user=${wp_username} --admin_password=${wp_password} --admin_email=${wp_email}
+    wp core install --url=${site_url} --title="${wp_title}" --admin_user=${wp_username} --admin_password=${wp_password} --admin_email=${wp_email}
     wp config set --add FS_METHOD direct
     #Install w3-total cache plugin 
     # wp plugin install w3-total-cache --activate

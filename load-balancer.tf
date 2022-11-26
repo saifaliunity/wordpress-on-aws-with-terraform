@@ -23,7 +23,7 @@ resource "aws_lb_target_group" "wordpress_tg" {
 
   health_check {
     interval            = 30
-    path                = "/"
+    path                = "/lb.html"
     protocol            = "HTTP"
     timeout             = 5
     healthy_threshold   = 5
