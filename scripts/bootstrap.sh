@@ -53,9 +53,16 @@ function configuringNginx {
     #sed -i '/user = apache/c\user = apache, nginx' /etc/php-fpm.d/www.conf
 }
 
+function installWpcli {
+    cd $wordpress_dir
+    echo "Downloading WP-CLI...."
+    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    chmod +x wp-cli.phar
+    mv wp-cli.phar /usr/local/bin/wp 
+}
+
 function installWordpress {
     cd $wordpress_dir
-
     echo "Downloading WP-CLI...."
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     chmod +x wp-cli.phar
@@ -69,7 +76,7 @@ function installWordpress {
     wp config create --dbname=${db_name} --dbuser=${db_username} --dbpass=${db_password} --dbhost=${db_host}
 
     echo "Installing Wordpress...."
-    wp core install --url=${site_url} --title="${wp_title}" --admin_user=${wp_username} --admin_password=${wp_password} --admin_email=${wp_email}
+    #wp core install --url=${site_url} --title="${wp_title}" --admin_user=${wp_username} --admin_password=${wp_password} --admin_email=${wp_email}
     wp config set --add FS_METHOD direct
     #Install w3-total cache plugin 
     # wp plugin install w3-total-cache --activate
@@ -104,24 +111,13 @@ systemctl enable --now nginx php-fpm
 if ! mountpoint -q $wordpress_dir; then
     mountEFS
     if [  mountpoint -q $wordpress_dir -a -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
+        echo "installing wp cli"
+        installWpcli
         echo "Fixing apache permissions..."
         fixApachePermissionsOnWp
     else
         echo "Unable to Attach EFS!"
         exit 1
-    fi
-else 
-    if [ ! -f "$wordpress_dir/wp-config.php" -a -f "$wordpress_dir/wp-config-sample.php" -a -d "$wordpress_dir/wp-admin" -a -d "$wordpress_dir/wp-includes" -a -d "$wordpress_dir/wp-content" ]; then
-    echo "Wordpress is already installed! But not configured! EFS is mounted"
-    echo "Generating Wp config"
-    genWpConfig
-    echo "Fixing apache permissions..."
-    fixApachePermissionsOnWp
-    else
-        echo "EFS attahced is empty! need to install fresh wordpress.."
-        installWordpress
-        echo "Fixing apache permissions..."
-        fixApachePermissionsOnWp
     fi
 fi
 
