@@ -99,7 +99,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
 
   vpc_zone_identifier = aws_subnet.private_subnets[*].id
   target_group_arns   = [aws_lb_target_group.wordpress_tg.arn]
-  health_check_type   = "ELB"
+  #health_check_type   = "ELB"
 
 
   launch_template {
