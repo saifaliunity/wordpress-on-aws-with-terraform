@@ -3,13 +3,13 @@
 wordpress_dir=/usr/share/nginx/wordpress
 
 function installPackages {
-    # sudo yum remove -y php php-* 
-    # sudo amazon-linux-extras disable php7.2
-    # sudo amazon-linux-extras disable lamp-mariadb10.2-php7.2
-    # sudo amazon-linux-extras enable php7.4
-    # sudo amazon-linux-extras install php7.4 -y
+    sudo yum remove -y php php-* 
+    sudo amazon-linux-extras disable php7.2
+    sudo amazon-linux-extras disable lamp-mariadb10.2-php7.2
+    sudo amazon-linux-extras enable php7.4
+    sudo amazon-linux-extras install php7.4 -y
     sudo yum update -y
-    sudo amazon-linux-extras install php7.2 nginx1 -y
+    sudo amazon-linux-extras install php7.4 nginx1 -y
     sudo yum install mariadb-server mysql -y
     sudo yum install amazon-efs-utils git libssl-dev openssl-devel git gcc g++ make pkg-config libsasl2-dev php-devel -y
     sudo yum install gcc-c++ zlib-devel -y
@@ -22,7 +22,7 @@ function installPackages {
 
 function installMemcachedClient {
     # Install
-    wget https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-7.2/latest-64bit-X86
+    wget https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-7.4/latest-64bit-X86
     tar -zxvf latest-64bit-X86
     mv amazon-elasticache-cluster-client.so /usr/lib64/php/modules/
     echo "extension=amazon-elasticache-cluster-client.so" | sudo tee --append /etc/php.d/50-memcached.ini
