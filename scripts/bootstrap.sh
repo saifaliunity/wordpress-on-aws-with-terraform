@@ -50,7 +50,7 @@ function configuringNginx {
     curl "$github_raw_url/nginx.conf" > /etc/nginx/nginx.conf
     sed -i '/;cgi.fix_pathinfo=1/c\cgi.fix_pathinfo=0' /etc/php.ini
     sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 100M/g' /etc/php.ini
-    #sed -i '/user = apache/c\user = apache, nginx' /etc/php-fpm.d/www.conf
+    systemctl restart nginx
 }
 
 function installWpcli {
@@ -99,23 +99,29 @@ function fixApachePermissionsOnWp {
 }
 
 
-#Installing Everything
+echo "Installing Everything"
 installPackages
+echo "Mounting EFS"
 mountEFS
+echo "Installing Memcached"
 installMemcachedClient
+echo "Configuring Nginx"
 configuringNginx
 
 #Spining everything
 systemctl enable --now nginx php-fpm 
 
 if  mountpoint -q $wordpress_dir; then
-    if [  mountpoint -q $wordpress_dir -a -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
+    if [ -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
         echo "installing wp cli"
         installWpcli
         echo "Fixing apache permissions..."
         fixApachePermissionsOnWp
     else
-        echo "Unable to Attach EFS!"
+        echo "Unable to Install WpCli and fix permissions!"
         exit 1
     fi
+else
+echo "EFS Was not attached! Please check logs!"
+systemctl restart nginx
 fi
