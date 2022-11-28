@@ -108,8 +108,7 @@ configuringNginx
 #Spining everything
 systemctl enable --now nginx php-fpm 
 
-if ! mountpoint -q $wordpress_dir; then
-    mountEFS
+if  mountpoint -q $wordpress_dir; then
     if [  mountpoint -q $wordpress_dir -a -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
         echo "installing wp cli"
         installWpcli
