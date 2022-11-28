@@ -15,7 +15,7 @@ function installPackages {
     sudo yum install gcc-c++ zlib-devel -y
     sudo yum remove openssl-devel.x86_64 -y
     sudo yum autoremove -y
-    sudo yum install openssl11-devel -y
+    sudo yum install openssl11-devel php-xml -y
     sudo yum clean all
     sudo rm -rf /var/cache/yum
 }
