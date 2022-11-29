@@ -108,8 +108,10 @@ resource "aws_autoscaling_group" "wordpress_asg" {
       spot_allocation_strategy                 = "capacity-optimized"
     }
   launch_template {
-    id      = aws_launch_template.wordpress_lt.id
-    # version = "$Latest"
+    launch_template_specification {
+      id      = aws_launch_template.wordpress_lt.id
+      # version = "$Latest"
+    }
   }
 }
 
