@@ -107,11 +107,11 @@ resource "aws_autoscaling_group" "wordpress_asg" {
       on_demand_percentage_above_base_capacity = 25
       spot_allocation_strategy                 = "capacity-optimized"
     }
-  }
   launch_template {
     id      = aws_launch_template.wordpress_lt.id
     version = "$Latest"
   }
+}
 
   tag {
     key                 = "Name"
