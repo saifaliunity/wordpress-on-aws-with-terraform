@@ -109,7 +109,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
     }
   launch_template {
     launch_template_specification {
-      id      = aws_launch_template.wordpress_lt.id
+      launch_template_id  = aws_launch_template.wordpress_lt.id
       # version = "$Latest"
     }
   }
