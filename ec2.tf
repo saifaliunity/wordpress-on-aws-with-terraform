@@ -113,7 +113,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
       # version = "$Latest"
     }
       override {
-        instance_type     = "c4.large"
+        instance_type     = "c5.xlarge"
         weighted_capacity = "3"
       }
 
@@ -123,7 +123,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
       }
 
       override {
-        instance_type     = "c3.large"
+        instance_type     = "c5.large"
         weighted_capacity = "2"
       }
   }
