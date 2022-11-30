@@ -36,6 +36,7 @@ function mountEFS {
     sudo pip3 install botocore
     sudo mkdir -p $wordpress_dir
     sudo mount -t efs ${file_system_id}:/ $wordpress_dir
+    sudo echo >> ${file_system_id}:/ $wordpress_dir efs _netdev,noresvport,tls,iam 0 0 /etc/fstab
     # Download the htacess and php.ini directives
     github_raw_url='https://raw.githubusercontent.com/saifaliunity/wordpress-on-aws-with-terraform/master/configurations'
     curl "$github_raw_url/.htaccess" -o $wordpress_dir/.htaccess
