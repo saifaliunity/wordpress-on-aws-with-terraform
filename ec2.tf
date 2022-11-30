@@ -101,51 +101,56 @@ resource "aws_autoscaling_group" "wordpress_asg" {
   target_group_arns   = [aws_lb_target_group.wordpress_tg.arn]
   health_check_type   = "ELB"
 
-  # warm_pool {
-  #   pool_state = "Stopped"
-  #   min_size   = 1
-
-  #   instance_reuse_policy {
-  #     reuse_on_scale_in = true
-  #   }
-  # }
-
-  mixed_instances_policy {
-    instances_distribution {
-      on_demand_base_capacity                  = 0
-      on_demand_percentage_above_base_capacity = 25
-      spot_allocation_strategy                 = "capacity-optimized"
-    }
-    launch_template {
-      launch_template_specification {
-        launch_template_id = aws_launch_template.wordpress_lt.id
-        version            = "$Latest"
-      }
-
-      override {
-        instance_type     = "c5.large"
-        weighted_capacity = "1"
-      }
-      override {
-        instance_type = "c5.xlarge"
-        launch_template_specification {
-          launch_template_id = aws_launch_template.wordpress_lt.id
-          version            = "$Latest"
-        }
-        weighted_capacity = "100"
-      }
-      override {
-        instance_type = "c5.4xlarge"
-        launch_template_specification {
-          launch_template_id = aws_launch_template.wordpress_lt.id
-          version            = "$Latest"
-        }
-        weighted_capacity = "200"
-      }
-
-    }
-
+  launch_template {
+    launch_template_id = aws_launch_template.wordpress_lt.id
+    version            = "$Latest"
   }
+
+  warm_pool {
+    pool_state = "Stopped"
+    min_size   = 4
+
+    instance_reuse_policy {
+      reuse_on_scale_in = true
+    }
+  }
+
+  # mixed_instances_policy {
+  #   instances_distribution {
+  #     on_demand_base_capacity                  = 0
+  #     on_demand_percentage_above_base_capacity = 25
+  #     spot_allocation_strategy                 = "capacity-optimized"
+  #   }
+  #   launch_template {
+  #     launch_template_specification {
+  #       launch_template_id = aws_launch_template.wordpress_lt.id
+  #       version            = "$Latest"
+  #     }
+
+  #     override {
+  #       instance_type     = "c5.large"
+  #       weighted_capacity = "1"
+  #     }
+  #     override {
+  #       instance_type = "c5.xlarge"
+  #       launch_template_specification {
+  #         launch_template_id = aws_launch_template.wordpress_lt.id
+  #         version            = "$Latest"
+  #       }
+  #       weighted_capacity = "100"
+  #     }
+  #     override {
+  #       instance_type = "c5.4xlarge"
+  #       launch_template_specification {
+  #         launch_template_id = aws_launch_template.wordpress_lt.id
+  #         version            = "$Latest"
+  #       }
+  #       weighted_capacity = "200"
+  #     }
+
+  #   }
+
+  # }
 
   tag {
     key                 = "Name"
