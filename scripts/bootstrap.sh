@@ -57,6 +57,9 @@ function installWpcli {
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     chmod +x wp-cli.phar
     mv wp-cli.phar /usr/local/bin/wp 
+    github_raw_url='https://raw.githubusercontent.com/saifaliunity/wordpress-on-aws-with-terraform/master/configurations'
+    curl "$github_raw_url/.htaccess" -o $wordpress_dir/.htaccess
+    curl "$github_raw_url/.user.ini" -o $wordpress_dir/wp-admin/.user.ini
 }
 
 function installWordpress {
