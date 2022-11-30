@@ -168,10 +168,10 @@ resource "aws_autoscaling_group" "wordpress_asg" {
 
 
 resource "aws_autoscaling_policy" "ASGAverageCPUUtilization" {
-  name                   = "cuple-ASGAverageCPUUtilization"
-  cooldown               = 300
-  autoscaling_group_name = aws_autoscaling_group.wordpress_asg.name
-  policy_type            = "TargetTrackingScaling"
+  name                            = "cuple-ASGAverageCPUUtilization"
+  estimaestimated_instance_warmup = 300
+  autoscaling_group_name          = aws_autoscaling_group.wordpress_asg.name
+  policy_type                     = "TargetTrackingScaling"
   target_tracking_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
