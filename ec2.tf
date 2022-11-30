@@ -108,7 +108,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
 
   warm_pool {
     pool_state = "Stopped"
-    min_size   = 4
+    min_size   = 1
 
     instance_reuse_policy {
       reuse_on_scale_in = true
