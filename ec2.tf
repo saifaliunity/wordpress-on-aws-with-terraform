@@ -102,7 +102,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
   health_check_type   = "ELB"
 
   launch_template {
-    launch_template_id = aws_launch_template.wordpress_lt.id
+    id = aws_launch_template.wordpress_lt.id
     version            = "$Latest"
   }
 
