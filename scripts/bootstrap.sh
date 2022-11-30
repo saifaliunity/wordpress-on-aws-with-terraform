@@ -7,12 +7,10 @@ function installPackages {
     sudo amazon-linux-extras disable php7.2
     sudo amazon-linux-extras disable lamp-mariadb10.2-php7.2
     sudo amazon-linux-extras enable php7.4
-    sudo amazon-linux-extras install php7.4 -y
-    sudo yum update -y
     sudo amazon-linux-extras install php7.4 nginx1 -y
+    sudo yum update -y
     sudo yum install mariadb-server mysql -y
-    sudo yum install amazon-efs-utils git libssl-dev openssl-devel git gcc g++ make pkg-config libsasl2-dev php-devel -y
-    sudo yum install gcc-c++ zlib-devel -y
+    sudo yum install amazon-efs-utils git gcc-c++ zlib-devel libssl-dev openssl-devel git gcc g++ make pkg-config libsasl2-dev php-devel -y
     sudo yum remove openssl-devel.x86_64 -y
     sudo yum autoremove -y
     sudo yum install openssl11-devel php-xml -y
@@ -107,21 +105,21 @@ echo "Installing Memcached"
 installMemcachedClient
 echo "Configuring Nginx"
 configuringNginx
-
+installWpcli
 #Spining everything
 systemctl enable --now nginx php-fpm 
-
-if  mountpoint -q $wordpress_dir; then
-    if [ -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
-        echo "installing wp cli"
-        installWpcli
-        echo "Fixing apache permissions..."
-        fixApachePermissionsOnWp
-    else
-        echo "Unable to Install WpCli and fix permissions!"
-        exit 1
-    fi
-else
-echo "EFS Was not attached! Please check logs!"
-systemctl restart nginx
-fi
+installWpcli
+# if  mountpoint -q $wordpress_dir; then
+#     if [ -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
+#         echo "installing wp cli"
+#         installWpcli
+#         echo "Fixing apache permissions..."
+#         fixApachePermissionsOnWp
+#     else
+#         echo "Unable to Install WpCli and fix permissions!"
+#         exit 1
+#     fi
+# else
+# echo "EFS Was not attached! Please check logs!"
+# systemctl restart nginx
+# fi
