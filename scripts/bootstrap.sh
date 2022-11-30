@@ -10,7 +10,7 @@ function installPackages {
     sudo amazon-linux-extras install php7.4 nginx1 -y
     sudo yum update -y
     sudo yum install mariadb-server mysql -y
-    sudo yum install amazon-efs-utils git gcc-c++ zlib-devel libssl-dev openssl-devel git gcc g++ make pkg-config libsasl2-dev php-devel -y
+    sudo yum install amazon-efs-utils git gcc-c++ zlib-devel libssl-dev openssl-devel gcc g++ make pkg-config libsasl2-dev php-devel -y
     sudo yum remove openssl-devel.x86_64 -y
     sudo yum autoremove -y
     sudo yum install openssl11-devel php-xml -y
@@ -47,7 +47,6 @@ function configuringNginx {
     curl "$github_raw_url/wordpress.conf" -o /etc/nginx/conf.d/wordpress.conf
     curl "$github_raw_url/nginx.conf" > /etc/nginx/nginx.conf
     sed -i '/;cgi.fix_pathinfo=1/c\cgi.fix_pathinfo=0' /etc/php.ini
-    sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 100M/g' /etc/php.ini
     systemctl restart nginx
 }
 
