@@ -110,7 +110,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
   launch_template {
     launch_template_specification {
       launch_template_id  = aws_launch_template.wordpress_lt.id
-      # version = "$Latest"
+      version = "$Latest"
     }
       override {
         instance_type     = "c5.xlarge"
