@@ -112,7 +112,17 @@ resource "aws_autoscaling_group" "wordpress_asg" {
       launch_template_id  = aws_launch_template.wordpress_lt.id
       # version = "$Latest"
     }
+      override {
+        instance_type     = "c4.large"
+        weighted_capacity = "3"
+      }
+
+      override {
+        instance_type     = "c3.large"
+        weighted_capacity = "2"
+      }
   }
+  
 }
 
   tag {
