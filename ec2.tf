@@ -101,9 +101,9 @@ resource "aws_autoscaling_group" "wordpress_asg" {
   target_group_arns   = [aws_lb_target_group.wordpress_tg.arn]
   health_check_type   = "ELB"
 
- warm_pool {
-    pool_state                  = "Stopped"
-    min_size                    = 1
+  warm_pool {
+    pool_state = "Stopped"
+    min_size   = 1
 
     instance_reuse_policy {
       reuse_on_scale_in = true
@@ -163,5 +163,21 @@ resource "aws_autoscaling_group" "wordpress_asg" {
   depends_on = [
     aws_rds_cluster_instance.wordpress_cluster_instances,
     aws_elasticache_cluster.memcached_cluster
+  ]
+}
+
+
+resource "aws_autoscaling_policy" "ASGAverageCPUUtilization" {
+  cooldown               = 300
+  autoscaling_group_name = aws_autoscaling_group.wordpress_asg.name
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+
+    target_value = 70
+  }
+  depends_on = [
+    aws_autoscaling_group.wordpress_asg
   ]
 }
