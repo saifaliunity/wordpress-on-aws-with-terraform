@@ -1,15 +1,15 @@
 #!/bin/bash
 
-wordpress_dir=/usr/share/nginx/wordpress
+wordpress_dir=/var/www/html
 
 function installPackages {
     sudo yum remove -y php php-* 
     sudo amazon-linux-extras disable php7.2
     sudo amazon-linux-extras disable lamp-mariadb10.2-php7.2
     sudo amazon-linux-extras enable php7.4
-    sudo amazon-linux-extras install php7.4 nginx1 -y
+    sudo amazon-linux-extras install php7.4 -y
     sudo yum update -y
-    sudo yum install mariadb-server mysql -y
+    sudo yum install httpd mariadb-server mysql -y
     sudo yum install amazon-efs-utils git gcc-c++ zlib-devel libssl-dev openssl-devel gcc g++ make pkg-config libsasl2-dev php-devel -y
     sudo yum remove openssl-devel.x86_64 -y
     sudo yum autoremove -y
@@ -36,6 +36,10 @@ function mountEFS {
     sudo pip3 install botocore
     sudo mkdir -p $wordpress_dir
     sudo mount -t efs ${file_system_id}:/ $wordpress_dir
+    # Download the htacess and php.ini directives
+    github_raw_url='https://raw.githubusercontent.com/saifaliunity/wordpress-on-aws-with-terraform/master/configurations'
+    curl "$github_raw_url/.htaccess" -o $wordpress_dir/.htaccess
+    curl "$github_raw_url/.user.ini" -o $wordpress_dir/wp-admin/.user.ini
 }
 
 
@@ -48,6 +52,11 @@ function configuringNginx {
     curl "$github_raw_url/nginx.conf" > /etc/nginx/nginx.conf
     sed -i '/;cgi.fix_pathinfo=1/c\cgi.fix_pathinfo=0' /etc/php.ini
     systemctl restart nginx
+}
+
+function configuringApache {
+    sudo systemctl start httpd
+    sudo systemctl enable httpd
 }
 
 function installWpcli {
@@ -94,8 +103,8 @@ function genWpConfig {
 }
 
 function fixApachePermissionsOnWp {
-    sudo chown -R apache:apache /usr/share/nginx/wordpress/
-    sudo systemctl restart nginx
+    sudo chown -R apache:apache $wordpress_dir
+    sudo systemctl restart httpd
 }
 
 
@@ -105,11 +114,11 @@ echo "Mounting EFS"
 mountEFS
 echo "Installing Memcached"
 installMemcachedClient
-echo "Configuring Nginx"
-configuringNginx
+echo "Configuring Apache"
+configuringApache
 installWpcli
 #Spining everything
-systemctl enable --now nginx php-fpm 
+systemctl enable --now php-fpm 
 # if  mountpoint -q $wordpress_dir; then
 #     if [ -d "$wordpress_dir/wp-admin" -a "$wordpress_dir/wp-content" -a "$wordpress_dir/wp-includes" ]; then
 #         echo "installing wp cli"
