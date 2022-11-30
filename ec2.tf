@@ -118,6 +118,11 @@ resource "aws_autoscaling_group" "wordpress_asg" {
       }
 
       override {
+        instance_type     = "t3.micro"
+        weighted_capacity = "0"
+      }
+
+      override {
         instance_type     = "c3.large"
         weighted_capacity = "2"
       }
