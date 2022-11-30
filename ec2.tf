@@ -102,33 +102,41 @@ resource "aws_autoscaling_group" "wordpress_asg" {
   health_check_type   = "ELB"
 
   mixed_instances_policy {
-      instances_distribution {
+    instances_distribution {
       on_demand_base_capacity                  = 0
       on_demand_percentage_above_base_capacity = 25
       spot_allocation_strategy                 = "capacity-optimized"
     }
-  launch_template {
-    launch_template_specification {
-      launch_template_id  = aws_launch_template.wordpress_lt.id
-      version = "$Latest"
-    }
+    launch_template {
+      launch_template_specification {
+        launch_template_id = aws_launch_template.wordpress_lt.id
+        version            = "$Latest"
+      }
 
       override {
-        instance_type     = "t3.micro"
-        weighted_capacity = "0"
+        instance_type     = "c5.large"
+        weighted_capacity = "1"
       }
       override {
-        instance_type     = "c5.large"
+        instance_type = "c5.xlarge"
+        launch_template_specification {
+          launch_template_id = aws_launch_template.wordpress_lt.id
+          version            = "$Latest"
+        }
         weighted_capacity = "100"
       }
       override {
-        instance_type     = "c5.xlarge"
+        instance_type = "c5.4xlarge"
+        launch_template_specification {
+          launch_template_id = aws_launch_template.wordpress_lt.id
+          version            = "$Latest"
+        }
         weighted_capacity = "200"
       }
 
+    }
+
   }
-  
-}
 
   tag {
     key                 = "Name"
