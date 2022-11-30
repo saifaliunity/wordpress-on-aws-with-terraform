@@ -101,6 +101,15 @@ resource "aws_autoscaling_group" "wordpress_asg" {
   target_group_arns   = [aws_lb_target_group.wordpress_tg.arn]
   health_check_type   = "ELB"
 
+ warm_pool {
+    pool_state                  = "Stopped"
+    min_size                    = 1
+
+    instance_reuse_policy {
+      reuse_on_scale_in = true
+    }
+  }
+
   mixed_instances_policy {
     instances_distribution {
       on_demand_base_capacity                  = 0
