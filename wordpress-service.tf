@@ -76,7 +76,7 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
 
 
 resource "aws_cloudwatch_log_group" "cuple-ae-wordpres-service_cw_log_group" {
-  name = "/ecs/terra-backend-cluster/cuple-ae-wordpres-service"
+  name = "/ecs/cuple-ae-wordpress-cluster/cuple-ae-wordpres-service"
   tags = {
     Environment = var.env
     Application = var.application_tag
