@@ -52,11 +52,6 @@ data "aws_iam_policy_document" "assume_role_policy" {
       identifiers = ["ecs-tasks.amazonaws.com"]
     }
   }
-  statement {
-    effect    = "Allow"
-    actions   = ["ec2:DescribeAvailabilityZones", "ssm:GetParameters", "ssm:GetParameter", "ssm:GetParametersByPath", "elasticfilesystem:*"]
-    resources = ["*"]
-  }
 }
 
 resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
