@@ -159,7 +159,7 @@ resource "aws_ecs_service" "cuple-ae-wordpres-service" {
   health_check_grace_period_seconds = 60
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.cuple-ae-wordpres-service_target_group.arn # Referencing our target group
+    target_group_arn = aws_lb_target_group.wordpress_tg.arn # Referencing our target group
     container_name   = aws_ecs_task_definition.cuple-ae-wordpres-service-task-defintion.family
     container_port   = var.cuple_ae_wordpress_service_container_port # Specifying the container port
   }
