@@ -6,7 +6,7 @@ resource "aws_vpc_endpoint" "efs" {
   vpc_endpoint_type = "Interface"
   subnet_ids = aws_subnet.private_subnets.*.id
   security_group_ids = [
-    aws_security_group.cardano-node-service_security_group.id,
+    aws_security_group.cuple-ae-wordpres-service_security_group.id
   ]
 
   private_dns_enabled = true
