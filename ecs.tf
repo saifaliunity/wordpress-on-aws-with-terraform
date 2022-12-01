@@ -1,5 +1,9 @@
 resource "aws_ecs_cluster" "cuple-ae-wordpress-cluster" {
   name = "cuple-ae-wordpress-cluster" # Naming the cluster
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
   depends_on = [
     aws_vpc.wordpress_vpc
   ]

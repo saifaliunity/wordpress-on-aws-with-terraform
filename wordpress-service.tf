@@ -134,7 +134,7 @@ resource "aws_security_group" "cuple-ae-wordpres-service_security_group" {
 
 resource "aws_ecs_service" "cuple-ae-wordpres-service" {
   name            = "cuple-ae-wordpres-service"                                          # Naming our first service
-  cluster         = aws_ecs_cluster.cuple-ae-wordpress-cluster.id                                  # Referencing our created Cluster
+  cluster         = aws_ecs_cluster.cuple-ae-wordpress-cluster.id                        # Referencing our created Cluster
   task_definition = aws_ecs_task_definition.cuple-ae-wordpres-service-task-defintion.arn # Referencing the task our service will spin up
   #Place atleast 1 task as OD and for each 1:4 place rest autoscaling for each 1 OD to 4 SPOT
   capacity_provider_strategy {

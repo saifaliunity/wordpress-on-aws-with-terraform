@@ -16,11 +16,11 @@ output "lb_dns_name" {
 }
 
 resource "aws_lb_target_group" "wordpress_tg" {
-  name     = "wordpress-tg"
-  port     = 80
+  name        = "wordpress-tg"
+  port        = 80
   target_type = "ip"
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.wordpress_vpc.id
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.wordpress_vpc.id
 
   health_check {
     interval            = 30
