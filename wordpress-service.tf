@@ -83,27 +83,27 @@ resource "aws_cloudwatch_log_group" "cuple-ae-wordpres-service_cw_log_group" {
   }
 }
 
-resource "aws_lb_target_group" "cuple-ae-wordpres-service_target_group" {
-  name                 = "landsale-auth-tg"
-  port                 = 80
-  protocol             = "HTTP"
-  target_type          = "ip"
-  vpc_id               = aws_vpc.wordpress_vpc.id # Referencing the VPC
-  deregistration_delay = 10
-  health_check {
-    path     = var.healthcheck_path
-    port     = var.landsale_auth_service_container_port
-    protocol = "HTTP"
-    timeout  = 20
-  }
-}
+# resource "aws_lb_target_group" "cuple-ae-wordpres-service_target_group" {
+#   name                 = "cuple-ae-wordpress-tg"
+#   port                 = 80
+#   protocol             = "HTTP"
+#   target_type          = "ip"
+#   vpc_id               = aws_vpc.wordpress_vpc.id # Referencing the VPC
+#   deregistration_delay = 10
+#   health_check {
+#     path     = var.healthcheck_path
+#     port     = var.port
+#     protocol = "HTTP"
+#     timeout  = 20
+#   }
+# }
 
 resource "aws_lb_listener_rule" "landsale-auth-rule" {
   listener_arn = aws_lb_listener.http_listner.arn
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.cuple-ae-wordpres-service_target_group.arn
+    target_group_arn = aws_lb_target_group.wordpress_tg.arn
   }
 
   condition {
