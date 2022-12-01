@@ -172,13 +172,13 @@ resource "aws_ecs_service" "cuple-ae-wordpres-service" {
 
   depends_on = [
     aws_ecs_cluster.cuple-ae-wordpres-cluster,
-    aws_lb.wordpress_alb,
+    aws_lb.wordpress_lb,
     aws_lb_listener_rule.cuple-ae-wordpress-rule,
     aws_ecs_cluster_capacity_providers.cluster-cp
   ]
 
   lifecycle {
-    ignore_changes = [desired_count, task_definition]
+    ignore_changes = [desired_count]
   }
 }
 
