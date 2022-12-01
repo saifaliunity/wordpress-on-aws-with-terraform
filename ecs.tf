@@ -1,5 +1,5 @@
-resource "aws_ecs_cluster" "cuple-ae-wordpres-cluster" {
-  name = "cuple-ae-wordpres-cluster" # Naming the cluster
+resource "aws_ecs_cluster" "cuple-ae-wordpress-cluster" {
+  name = "cuple-ae-wordpress-cluster" # Naming the cluster
   depends_on = [
     aws_vpc.wordpress_vpc
   ]
@@ -7,14 +7,14 @@ resource "aws_ecs_cluster" "cuple-ae-wordpres-cluster" {
 
 resource "aws_ecs_cluster_capacity_providers" "cluster-cp" {
 
-  cluster_name       = aws_ecs_cluster.cuple-ae-wordpres-cluster.name
+  cluster_name       = aws_ecs_cluster.cuple-ae-wordpress-cluster.name
   capacity_providers = ["FARGATE_SPOT", "FARGATE"]
 
   default_capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
   }
   depends_on = [
-    aws_ecs_cluster.cuple-ae-wordpres-cluster
+    aws_ecs_cluster.cuple-ae-wordpress-cluster
   ]
 }
 
