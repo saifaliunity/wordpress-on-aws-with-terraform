@@ -3,7 +3,7 @@ resource "aws_db_subnet_group" "wordpress_db_subnets" {
   subnet_ids = aws_subnet.private_subnets[*].id
 
   tags = {
-    Name = "My WordPress DB subnet group"
+    Name = "WordPress DB subnet group"
   }
 }
 

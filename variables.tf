@@ -138,3 +138,27 @@ variable "ec_memcached_port" {
   type        = number
   description = "The Memcache port that the nodes will be listing on"
 }
+
+variable "task_cpu" {
+  description = "(Required) Task CPU to the wordpress task"
+}
+
+variable "task_memory" {
+  description = "(Required) Task Memory to the wordpress task"
+}
+
+variable "container_image" {
+  description = "(Required) Container image to use in wordpress task"
+}
+
+variable "application_tag" {
+  description = "(Required) tag to application"
+}
+
+variable "domain_name" {
+  description = "(Required) Domain name to use in load balancer configuration for listener rule."
+}
+
+variable "healthcheck_path" {
+  description = "(Required) Healthcheck path for wordpress"
+}
