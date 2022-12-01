@@ -165,7 +165,7 @@ resource "aws_ecs_service" "cuple-ae-wordpres-service" {
   }
 
   network_configuration {
-    subnets          = ["${aws_subnet.private[0].id}", "${aws_subnet.private[1].id}"]
+    subnets          = ["${aws_subnet.private_subnets.*.id}"]
     assign_public_ip = false                                                                 # Providing our containers with private IPs
     security_groups  = ["${aws_security_group.cuple-ae-wordpres-service_security_group.id}"] # Setting the security group
   }
