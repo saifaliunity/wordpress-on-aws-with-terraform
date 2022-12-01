@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
         }
       },
     "mountPoints": [{
-        "containerPath": "/var/www/html",
+        "containerPath": "/var/www/html/",
         "sourceVolume": "wp-data"
     }],
       "healthCheck": {
@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
     name = "wp-data"
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.wordpress_fs.id
-      root_directory = "/"
+    #   root_directory = "/"
     }
   }
 
