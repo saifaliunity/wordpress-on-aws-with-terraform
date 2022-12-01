@@ -108,7 +108,7 @@ resource "aws_lb_listener_rule" "cuple-ae-wordpress-rule" {
 
   condition {
     path_pattern {
-      values = ["${var.domain_names}/*"]
+      values = ["${var.domain_name}/*"]
     }
   }
 }
