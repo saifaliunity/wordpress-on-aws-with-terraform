@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
         }
       },
     "mountPoints": [{
-        "containerPath": "/var/www/html/",
+        "containerPath": "/bitnami/wordpress",
         "sourceVolume": "wp-data"
     }],
       "healthCheck": {
