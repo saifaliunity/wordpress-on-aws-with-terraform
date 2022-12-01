@@ -1,8 +1,8 @@
-variable "landsale_auth_service_container_port" {
+variable "cuple_ae_wordpress_service_container_port" {
   default = 80
 }
 
-variable "landsale_auth_service_container_name" {
+variable "cuple_ae_wordpress_service_container_name" {
   default = "cuple-ae-wordpres-service"
 }
 
@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
   container_definitions = <<DEFINITION
   [
     {
-      "name": "${var.landsale_auth_service_container_name}",
+      "name": "${var.cuple_ae_wordpress_service_container_name}",
       "image": "${var.container_image}",
       "essential": true,
       "logConfiguration": {
@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
           "retries": 3,
           "command": [
               "CMD-SHELL",
-              "curl -f http://localhost:${var.landsale_auth_service_container_port}/lb.html || exit 1"
+              "curl -f http://localhost:${var.cuple_ae_wordpress_service_container_port}/lb.html || exit 1"
           ],
           "timeout": 10,
           "interval": 30,
@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
       },
       "portMappings": [
         {
-          "containerPort": ${var.landsale_auth_service_container_port}
+          "containerPort": ${var.cuple_ae_wordpress_service_container_port}
         }
       ],
       "memory": 2048,
@@ -98,7 +98,7 @@ resource "aws_cloudwatch_log_group" "cuple-ae-wordpres-service_cw_log_group" {
 #   }
 # }
 
-resource "aws_lb_listener_rule" "landsale-auth-rule" {
+resource "aws_lb_listener_rule" "cuple-ae-wordpress-rule" {
   listener_arn = aws_lb_listener.http_listner.arn
 
   action {
@@ -161,7 +161,7 @@ resource "aws_ecs_service" "cuple-ae-wordpres-service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.cuple-ae-wordpres-service_target_group.arn # Referencing our target group
     container_name   = aws_ecs_task_definition.cuple-ae-wordpres-service-task-defintion.family
-    container_port   = var.landsale_auth_service_container_port # Specifying the container port
+    container_port   = var.cuple_ae_wordpress_service_container_port # Specifying the container port
   }
 
   network_configuration {
@@ -173,7 +173,7 @@ resource "aws_ecs_service" "cuple-ae-wordpres-service" {
   depends_on = [
     aws_ecs_cluster.landsale-cluster,
     aws_lb.wordpress_alb,
-    aws_lb_listener_rule.landsale-auth-rule,
+    aws_lb_listener_rule.cuple-ae-wordpress-rule,
     aws_ecs_cluster_capacity_providers.cluster-cp
   ]
 
@@ -192,7 +192,7 @@ resource "aws_appautoscaling_target" "cuple-ae-wordpres-service_ecs_target" {
 }
 
 
-resource "aws_appautoscaling_policy" "ecs_target_cpu-landsale-auth" {
+resource "aws_appautoscaling_policy" "ecs_target_cpu-cuple-ae-wordpress" {
   name               = "application-scaling-policy-cpu"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.cuple-ae-wordpres-service_ecs_target.resource_id
@@ -207,7 +207,7 @@ resource "aws_appautoscaling_policy" "ecs_target_cpu-landsale-auth" {
   }
   depends_on = [aws_appautoscaling_target.cuple-ae-wordpres-service_ecs_target]
 }
-resource "aws_appautoscaling_policy" "ecs_target_memory-landsale-auth" {
+resource "aws_appautoscaling_policy" "ecs_target_memory-cuple-ae-wordpress" {
   name               = "application-scaling-policy-memory"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.cuple-ae-wordpres-service_ecs_target.resource_id
