@@ -120,7 +120,7 @@ resource "aws_security_group" "cuple-ae-wordpres-service_security_group" {
     to_port   = 0
     protocol  = "-1"
     # Only allowing traffic in from the load balancer security group
-    security_groups = ["${aws_security_group.load_balancer_security_group.id}"]
+    security_groups = ["${aws_security_group.lb_sg.id}"]
   }
 
   egress {
