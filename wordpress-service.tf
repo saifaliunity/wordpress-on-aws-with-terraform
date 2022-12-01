@@ -1,5 +1,5 @@
 variable "cuple_ae_wordpress_service_container_port" {
-  default = 80
+  default = 8080
 }
 
 variable "cuple_ae_wordpress_service_container_name" {

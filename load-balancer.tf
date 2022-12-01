@@ -17,13 +17,14 @@ output "lb_dns_name" {
 
 resource "aws_lb_target_group" "wordpress_tg" {
   name        = "wordpress-tg"
-  port        = 80
+  port        = var.cuple_ae_wordpress_service_container_port
   target_type = "ip"
   protocol    = "HTTP"
   vpc_id      = aws_vpc.wordpress_vpc.id
 
   health_check {
     interval            = 30
+    port = var.cuple_ae_wordpress_service_container_port
     path                = "/lb.html"
     protocol            = "HTTP"
     timeout             = 5
