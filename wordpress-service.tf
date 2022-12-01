@@ -134,7 +134,7 @@ resource "aws_security_group" "cuple-ae-wordpres-service_security_group" {
 
 resource "aws_ecs_service" "cuple-ae-wordpres-service" {
   name            = "cuple-ae-wordpres-service"                                          # Naming our first service
-  cluster         = aws_ecs_cluster.landsale-cluster.id                                  # Referencing our created Cluster
+  cluster         = aws_ecs_cluster.cuple-ae-wordpres-cluster.id                                  # Referencing our created Cluster
   task_definition = aws_ecs_task_definition.cuple-ae-wordpres-service-task-defintion.arn # Referencing the task our service will spin up
   #Place atleast 1 task as OD and for each 1:4 place rest autoscaling for each 1 OD to 4 SPOT
   capacity_provider_strategy {
@@ -171,7 +171,7 @@ resource "aws_ecs_service" "cuple-ae-wordpres-service" {
   }
 
   depends_on = [
-    aws_ecs_cluster.landsale-cluster,
+    aws_ecs_cluster.cuple-ae-wordpres-cluster,
     aws_lb.wordpress_alb,
     aws_lb_listener_rule.cuple-ae-wordpress-rule,
     aws_ecs_cluster_capacity_providers.cluster-cp
@@ -185,7 +185,7 @@ resource "aws_ecs_service" "cuple-ae-wordpres-service" {
 resource "aws_appautoscaling_target" "cuple-ae-wordpres-service_ecs_target" {
   max_capacity       = 4
   min_capacity       = 1
-  resource_id        = "service/${aws_ecs_cluster.landsale-cluster.name}/${aws_ecs_service.cuple-ae-wordpres-service.name}"
+  resource_id        = "service/${aws_ecs_cluster.cuple-ae-wordpres-cluster.name}/${aws_ecs_service.cuple-ae-wordpres-service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
   role_arn           = aws_iam_role.ecs-autoscale-role.arn
