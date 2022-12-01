@@ -160,5 +160,9 @@ variable "domain_name" {
 }
 
 variable "healthcheck_path" {
-  description = "(Required) Healthcheck path for wordpress"
+  description = "(Required) Healthcheck path for wordpress."
+}
+
+variable "efs_mount_dir_in_container" {
+ description = "(Required) efs mount point directory inside the container."
 }
