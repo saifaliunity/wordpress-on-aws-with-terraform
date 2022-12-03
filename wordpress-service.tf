@@ -43,8 +43,8 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
           "containerPort": ${var.cuple_ae_wordpress_service_container_port}
         }
       ],
-      "memory": 2048,
-      "cpu": 1024
+      "memory": ${var.task_memory},
+      "cpu": ${var.task_cpu}
     }
     
   ]
