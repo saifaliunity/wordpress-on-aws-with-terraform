@@ -6,6 +6,9 @@ resource "aws_efs_file_system" "wordpress_fs" {
     transition_to_ia = "AFTER_60_DAYS"
   }
 
+  lifecycle {
+    prevent_destroy = true
+  }
   tags = {
     Name = "Wordpress-EFS-DATA"
   }
