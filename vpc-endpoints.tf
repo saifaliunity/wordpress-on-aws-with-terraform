@@ -10,9 +10,6 @@ data "aws_route_table" "private" {
   ]
 }
 
-data "aws_region" "current" {}
-
-
 resource "aws_security_group" "vpc_endpoint_security_group" {
   vpc_id = aws_vpc.wordpress_vpc.id
   ingress {
