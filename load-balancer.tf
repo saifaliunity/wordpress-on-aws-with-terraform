@@ -16,7 +16,7 @@ output "lb_dns_name" {
 }
 
 resource "aws_lb_target_group" "wordpress_tg" {
-  name        = "wordpress-tg"
+  name_prefix = "wptg"
   port        = var.cuple_ae_wordpress_service_container_port
   target_type = "ip"
   protocol    = "HTTP"
@@ -24,13 +24,16 @@ resource "aws_lb_target_group" "wordpress_tg" {
 
   health_check {
     interval            = 30
-    port = var.cuple_ae_wordpress_service_container_port
-    path                = "/lb.html"
+    port                = var.cuple_ae_wordpress_service_container_port
+    path                = var.healthcheck_path
     protocol            = "HTTP"
     timeout             = 5
     healthy_threshold   = 5
     unhealthy_threshold = 3
     matcher             = "200"
+  }
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
