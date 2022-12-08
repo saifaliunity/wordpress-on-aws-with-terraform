@@ -12,7 +12,8 @@ resource "aws_efs_file_system" "wordpress_fs" {
   tags = {
     Name = "Wordpress-EFS-DATA"
   }
-  throughput_mode = "provisioned"
+  throughput_mode                 = "provisioned"
+  provisioned_throughput_in_mibps = 27
 }
 
 resource "aws_efs_backup_policy" "policy" {
