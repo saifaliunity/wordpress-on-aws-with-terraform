@@ -183,8 +183,8 @@ resource "aws_ecs_service" "cuple-ae-wordpres-service" {
 }
 
 resource "aws_appautoscaling_target" "cuple-ae-wordpres-service_ecs_target" {
-  max_capacity       = 4
-  min_capacity       = 1
+  max_capacity       = var.max_ecs_capacity
+  min_capacity       = var.min_ecs_capacity
   resource_id        = "service/${aws_ecs_cluster.cuple-ae-wordpress-cluster.name}/${aws_ecs_service.cuple-ae-wordpres-service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"

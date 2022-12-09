@@ -166,3 +166,10 @@ variable "healthcheck_path" {
 variable "efs_mount_dir_in_container" {
   description = "(Required) efs mount point directory inside the container."
 }
+
+variable "min_ecs_capacity" {
+  
+}
+variable "max_ecs_capacity" {
+  
+}
