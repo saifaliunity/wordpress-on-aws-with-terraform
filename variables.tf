@@ -168,8 +168,8 @@ variable "efs_mount_dir_in_container" {
 }
 
 variable "min_ecs_capacity" {
-  
+
 }
 variable "max_ecs_capacity" {
-  
+
 }

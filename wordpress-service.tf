@@ -24,10 +24,10 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
           "awslogs-stream-prefix": "ecs"
         }
       },
-    "mountPoints": [{
-        "containerPath": "${var.efs_mount_dir_in_container}",
-        "sourceVolume": "wp-data"
-    }],
+      "mountPoints": [{
+          "containerPath": "${var.efs_mount_dir_in_container}",
+          "sourceVolume": "wp-data"
+      }],
       "healthCheck": {
           "retries": 3,
           "command": [
@@ -42,9 +42,17 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
         {
           "containerPort": ${var.cuple_ae_wordpress_service_container_port}
         }
-      ],
-      "memory": ${var.task_memory},
-      "cpu": ${var.task_cpu}
+      ]
+    },
+    {
+      "name": "memcached",
+      "image": "memcached:latest"
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 11211
+        }
+      ]
     }
     
   ]
