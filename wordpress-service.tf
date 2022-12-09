@@ -43,18 +43,7 @@ resource "aws_ecs_task_definition" "cuple-ae-wordpres-service-task-defintion" {
           "containerPort": ${var.cuple_ae_wordpress_service_container_port}
         }
       ]
-    },
-    {
-      "name": "memcached",
-      "image": "memcached:latest"
-      "essential": true,
-      "portMappings": [
-        {
-          "containerPort": 11211
-        }
-      ]
-    }
-    
+    }    
   ]
   DEFINITION
 
