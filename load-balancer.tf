@@ -30,7 +30,7 @@ resource "aws_lb_target_group" "wordpress_tg" {
     timeout             = 5
     healthy_threshold   = 5
     unhealthy_threshold = 3
-    matcher             = "302"
+    matcher             = "200"
   }
   lifecycle {
     create_before_destroy = true
