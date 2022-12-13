@@ -20,12 +20,11 @@ function installPackages {
 
 function installMemcachedClient {
     # Install
-    wget https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-7.4/latest-64bit-X86
+    curl https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-7.4/latest-64bit-X86 -o latest-64bit-X86
     tar -zxvf latest-64bit-X86
-    mv amazon-elasticache-cluster-client.so /usr/lib64/php/modules/
-    echo "extension=amazon-elasticache-cluster-client.so" | sudo tee --append /etc/php.d/50-memcached.ini
+    mv amazon-elasticache-cluster-client.so /usr/local/lib/php/
+    echo "extension=amazon-elasticache-cluster-client.so" | tee --append /usr/local/etc/php/conf.d/50-memcached.ini
     rm -rfv latest-64bit-X86 artifact
-    sudo systemctl restart php-fpm nginx
     # Verify
     php -r "echo((extension_loaded('memcached') ? \"Yes\n\" : \"No\n\"));"
 }
