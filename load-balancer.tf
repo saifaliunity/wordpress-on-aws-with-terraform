@@ -16,12 +16,12 @@ output "lb_dns_name" {
 }
 
 resource "aws_lb_target_group" "wordpress_tg" {
-  name_prefix = "wptg"
-  port        = var.cuple_ae_wordpress_service_container_port
-  target_type = "ip"
-  protocol    = "HTTP"
-  vpc_id      = aws_vpc.wordpress_vpc.id
-
+  name_prefix          = "wptg"
+  port                 = var.cuple_ae_wordpress_service_container_port
+  target_type          = "ip"
+  protocol             = "HTTP"
+  vpc_id               = aws_vpc.wordpress_vpc.id
+  deregistration_delay = 10
   health_check {
     interval            = 30
     port                = var.cuple_ae_wordpress_service_container_port

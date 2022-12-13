@@ -76,7 +76,7 @@ resource "aws_ssm_parameter" "site_url" {
 }
 
 locals {
-    username_password = {
+  username_password = {
     username = "${aws_ssm_parameter.db_username.value}"
     password = "${aws_ssm_parameter.db_password.value}"
   }
