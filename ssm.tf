@@ -75,3 +75,20 @@ resource "aws_ssm_parameter" "site_url" {
   value       = format("http://%s", aws_lb.wordpress_lb.dns_name)
 }
 
+locals {
+    username_password = {
+    username = "${aws_ssm_parameter.db_username.value}"
+    password = "${aws_ssm_parameter.db_password.value}"
+  }
+}
+
+resource "aws_secretsmanager_secret" "rds_username_and_password" {
+  name                    = "rds-user-password"
+  description             = "RDS username and password"
+  recovery_window_in_days = 0
+}
+
+resource "aws_secretsmanager_secret_version" "rds_username_and_password" {
+  secret_id     = aws_secretsmanager_secret.rds_username_and_password.id
+  secret_string = jsonencode(local.username_password)
+}

@@ -16,7 +16,7 @@ resource "aws_rds_cluster" "wordpress_db_cluster" {
   database_name      = aws_ssm_parameter.db_name.value
   master_username    = aws_ssm_parameter.db_username.value
   master_password    = aws_ssm_parameter.db_password.value
-
+  db_cluster_parameter_group_name = "wordpressrds-cg"
   db_subnet_group_name    = aws_db_subnet_group.wordpress_db_subnets.name
   vpc_security_group_ids  = [aws_security_group.aurora_sg.id]
   backup_retention_period = 5
@@ -36,6 +36,7 @@ resource "aws_rds_cluster_instance" "wordpress_cluster_instances" {
   instance_class       = var.db_instance_type
   engine               = aws_rds_cluster.wordpress_db_cluster.engine
   engine_version       = aws_rds_cluster.wordpress_db_cluster.engine_version
+  db_parameter_group_name = "wordpressrds-dbg"
   publicly_accessible  = false
   db_subnet_group_name = aws_rds_cluster.wordpress_db_cluster.db_subnet_group_name
 }
